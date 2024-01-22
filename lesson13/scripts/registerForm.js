@@ -3,6 +3,8 @@ function handleRegistration() {
     let lastName = document.getElementById('lastName').value;
     let username = document.getElementById('username').value;
     let password = document.getElementById('password').value;
+    let regForm = document.getElementById('registerForm');
+    let errorMessage = document.getElementById("error");
 
     let oldUsersData = localStorage.getItem('usersData');
     oldUsersData = JSON.parse(oldUsersData);            
@@ -16,20 +18,20 @@ function handleRegistration() {
     
     if (oldUsersData === null) {
         localStorage.setItem('usersData', JSON.stringify([user]));
-        window.location.href = "./loginForm.html"
     } else {
-        
             for (let user of oldUsersData) {
                 if (user.username === username) {
-                    let errorMessage = document.getElementById("error");
                     errorMessage.style.color = "red";
                     errorMessage.innerHTML = "This username is already used!"
+                    regForm.addEventListener('submit', function(event) {
+                        event.preventDefault();
+                    })
                 } else {
                     oldUsersData.push(user);
                     localStorage.setItem('usersData', JSON.stringify(oldUsersData));
-                    window.location.href = "./loginForm.html"
+                    window.location.href = "/loginForm.html"
                 }
-                
+                break;
             }
     }
 }
